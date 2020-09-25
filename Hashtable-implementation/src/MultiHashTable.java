@@ -6,25 +6,34 @@ import java.util.Random;
 public class MultiHashTable {
 
   static final int CAPACITY = 1000;
-  static final int FLOWS = 1000;
   static final int k = 3;
   int[] s;
   Entry[] arr;
+  int numEntries;
+
+  public MultiHashTable() {
+    s = new int[k];
+    arr = new Entry[CAPACITY];
+    generateKHashFunctions();
+  }
 
   public void generateKHashFunctions() {
-    s = new int[k];
     for (int i = 0; i < s.length; i++) {
       s[i] = new Random().nextInt();
     }
   }
 
+  /*
+   * Add to the hashtable if any one of the k entries are available
+   */
   public boolean put(int flowId) {
     for (int i = 0; i < s.length; i++) {
       int result = flowId ^ s[i];
       Entry entry = new Entry(result);
       int hash = entry.hashCode();
-      if (arr[hash] == null) {
-        arr[hash] = entry;
+      if (arr[hash % CAPACITY] == null) {
+        arr[hash % CAPACITY] = entry;
+        numEntries++;
         return true;
       }
     }
