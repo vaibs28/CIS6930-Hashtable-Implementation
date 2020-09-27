@@ -23,7 +23,7 @@ public class ApplicationRunner {
         break;
 
       case 3:
-        //map = new DLeftHashTable(1000, 1000, 4);
+        map = new DLeftHashTable(1000, 4);
         break;
 
       default:
@@ -37,13 +37,33 @@ public class ApplicationRunner {
 
     // outputs
     System.out.println("Number of flows in the hashtable = " + map.numEntries);
-    for (int i = 0; i < map.capacity; i++) {
-      if (map.arr[i] != null) {
-        System.out.println("Flow Id=" + map.arr[i].flowId);
-      } else {
-        System.out.println(0);
+    if (map.getClass().getName().equals("MultiHashTable")
+        || map.getClass().getName().equals("CuckooHashTable")) {
+      for (int i = 0; i < map.capacity; i++) {
+        if (map.arr[i] != null) {
+          System.out.println("Flow Id=" + map.arr[i].flowId);
+        } else {
+          System.out.println(0);
+        }
+      }
+    } else {
+      // d left hash table
+      DLeftHashTable ht = new DLeftHashTable(1000, 4);
+      for (int i = 0; i < FLOWS; i++) {
+        int flowId = Math.abs(new Random().nextInt());
+        ht.put(flowId);
+      }
+      for (int i = 0; i < ht.segments; i++) {
+        Segment segment = ht.segmentArr[i];
+        for (int j = 0; j < segment.capacity; j++) {
+          if (segment != null && segment.arr[j] != null)
+            System.out.println("Flow Id=" + segment.arr[j].flowId);
+          else
+            System.out.println(0);
+        }
       }
     }
+
   }
 
 }
