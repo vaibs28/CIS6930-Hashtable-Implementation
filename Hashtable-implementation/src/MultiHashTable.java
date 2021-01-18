@@ -1,24 +1,16 @@
-import java.util.Random;
-
 /*
  * Define the multi-hashing table, as an array of entries with the declared capacity
  */
 public class MultiHashTable extends HashTable {
 
-
   public MultiHashTable(int capacity, int k) {
     this.k = k;
-    this.capacity = capacity;
     s = new int[k];
+    this.capacity = capacity;
     arr = new Entry[capacity];
     generateKHashFunctions();
   }
 
-  public void generateKHashFunctions() {
-    for (int i = 0; i < s.length; i++) {
-      s[i] = Math.abs(new Random().nextInt());
-    }
-  }
 
   /*
    * Add to the hashtable if any one of the k entries are available
@@ -35,6 +27,13 @@ public class MultiHashTable extends HashTable {
       }
     }
     return false;
+  }
+
+
+  public void generateKHashFunctions() {
+    for (int i = 0; i < s.length; i++) {
+      s[i] = Math.abs(rand.nextInt());
+    }
   }
 }
 

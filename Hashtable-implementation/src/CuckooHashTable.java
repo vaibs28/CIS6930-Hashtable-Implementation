@@ -1,11 +1,10 @@
-import java.util.Random;
-
 /*
  * Define the cuckoo hash table, as an array of entries with the declared capacity
  */
 public class CuckooHashTable extends HashTable {
 
   int c;
+  int moved;
 
   public CuckooHashTable(int capacity, int k, int c) {
     this.k = k;
@@ -18,7 +17,7 @@ public class CuckooHashTable extends HashTable {
 
   public void generateKHashFunctions() {
     for (int i = 0; i < s.length; i++) {
-      s[i] = Math.abs(new Random().nextInt());
+      s[i] = Math.abs(rand.nextInt());
     }
   }
 
@@ -48,6 +47,7 @@ public class CuckooHashTable extends HashTable {
       if (move(existingEntry, c)) {
         arr[hash % capacity] = new Entry(flowId);
         numEntries++;
+        moved++;
         return true;
       }
     }

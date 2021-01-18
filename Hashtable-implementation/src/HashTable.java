@@ -1,5 +1,7 @@
+import java.util.Random;
 
 public abstract class HashTable {
+  Random rand = new Random();
   int capacity;
   int numEntries;
   Entry[] arr;

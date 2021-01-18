@@ -1,12 +1,10 @@
-import java.util.Random;
-
 public class DLeftHashTable extends HashTable {
 
   int segments;
   Segment[] segmentArr;
 
   public DLeftHashTable(int capacity, int segments) {
-    this.capacity = capacity/segments;
+    this.capacity = capacity / segments;
     this.segments = segments;
     s = new int[segments];
     segmentArr = new Segment[segments];
@@ -15,6 +13,12 @@ public class DLeftHashTable extends HashTable {
       segmentArr[i].arr = new Entry[this.capacity];
     }
     generateKHashFunctions();
+  }
+
+  public void generateKHashFunctions() {
+    for (int i = 0; i < s.length; i++) {
+      s[i] = Math.abs(rand.nextInt());
+    }
   }
 
   @Override
@@ -32,15 +36,4 @@ public class DLeftHashTable extends HashTable {
     }
     return false;
   }
-
-
-
-  @Override
-  public void generateKHashFunctions() {
-    for (int i = 0; i < s.length; i++) {
-      s[i] = Math.abs(new Random().nextInt());
-    }
-
-  }
-
 }
